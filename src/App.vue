@@ -3,13 +3,13 @@
     <h1>My App:</h1>
 
     <AsyncAwait :promise="request">
-      <div slot-scope="{ state }">
-        <p v-if="state.isLoading">Loading...</p>
+      <template slot-scope="{ isLoading, error, results }">
+        <p v-if="isLoading">Loading...</p>
 
-        <p v-else-if="state.error" class="error">{{ error.message }}</p>
+        <p v-else-if="error" class="error">{{ error.message }}</p>
 
-        <pre v-else>{{ state.results }}</pre>
-      </div>
+        <pre v-else>{{ results }}</pre>
+      </template>
     </AsyncAwait>
   </div>
 </template>

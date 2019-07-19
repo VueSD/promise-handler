@@ -1,9 +1,3 @@
-<template>
-  <div>
-    <slot :state="state" />
-  </div>
-</template>
-
 <script>
 export default {
   props: {
@@ -30,6 +24,12 @@ export default {
     } finally {
       this.state.isLoading = false;
     }
+  },
+
+  render() {
+    return this.$scopedSlots.default({
+      ...this.state
+    });
   }
 };
 </script>
