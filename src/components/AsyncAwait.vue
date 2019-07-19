@@ -1,13 +1,5 @@
 <template>
   <div>
-    <!-- <p v-if="isLoading">Loading...</p>
-
-    <p
-      v-else-if="error"
-      class="error"
-    >{{ error.message }}</p>
-
-    <pre v-else>{{ results }}</pre> -->
     <slot :state="state" />
   </div>
 </template>
