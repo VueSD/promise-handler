@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <h1>My App:</h1>
+    <p v-if="isLoading">Loading...</p>
+
     <p v-if="error" class="error">{{ error.message }}</p>
 
     {{ details }}
@@ -9,17 +12,22 @@
 <script>
 export default {
   data: () => ({
+    isLoading: false,
     details: null,
     error: null
   }),
 
   async mounted() {
     try {
+      this.isLoading = true;
+
       this.details = await fetch(
         "https://jsonplaceholder.typicode.com/todos/1"
       ).then(res => res.json());
     } catch (error) {
       this.error = error;
+    } finally {
+      this.isLoading = false;
     }
   }
 };
