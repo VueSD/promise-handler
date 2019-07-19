@@ -1,35 +1,37 @@
 <template>
   <div id="app">
     <h1>My App:</h1>
-    <p v-if="isLoading">Loading...</p>
 
-    <p v-if="error" class="error">{{ error.message }}</p>
-
-    {{ details }}
+    <AsyncAwait :promise="request">
+      <div slot-scope="data">
+        <pre>{{ data }}</pre>
+      </div>
+    </AsyncAwait>
   </div>
 </template>
 
 <script>
+import AsyncAwait from "@/components/AsyncAwait";
+
 export default {
+  components: {
+    AsyncAwait
+  },
+
   data: () => ({
-    isLoading: false,
-    details: null,
-    error: null
-  }),
-
-  async mounted() {
-    try {
-      this.isLoading = true;
-
-      this.details = await fetch(
-        "https://jsonplaceholder.typicode.com/todos/1"
-      ).then(res => res.json());
-    } catch (error) {
-      this.error = error;
-    } finally {
-      this.isLoading = false;
-    }
-  }
+    text: "hello world",
+    request: fetch("https://jsonplaceholder.typicode.com/todos/1")
+      .then(res => res.json())
+      .then(results => {
+        return new Promise((res, rej) => {
+          setTimeout(() => {
+            console.log(rej);
+            // rej(new Error("nah bro"));
+            res(results);
+          }, 1000);
+        });
+      })
+  })
 };
 </script>
 
