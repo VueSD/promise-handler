@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <p v-if="error" class="error">{{ error.message }}</p>
+
     {{ details }}
   </div>
 </template>
@@ -7,13 +9,18 @@
 <script>
 export default {
   data: () => ({
-    details: null
+    details: null,
+    error: null
   }),
 
   async mounted() {
-    this.details = await fetch(
-      "https://jsonplaceholder.typicode.com/todos/1"
-    ).then(res => res.json());
+    try {
+      this.details = await fetch(
+        "https://jsonplaceholder.typicode.com/todos/1"
+      ).then(res => res.json());
+    } catch (error) {
+      this.error = error;
+    }
   }
 };
 </script>
@@ -26,5 +33,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.error {
+  color: red;
 }
 </style>
